@@ -21,23 +21,23 @@ const set_block_list = (list) => {
     localStorage.setItem("active_block_data", JSON.stringify(final_list))
     app.bbs_user_block(final_list)
     app.comment_block(final_list)
-
 }
 
 const add_block_list = (...list) => {
     const prevList = get_block_list()
     for (item of list) 
-        if (prevList.every(a => a!==item)) prevList.push(Number(item))
+        if (prevList.every(a => a!==item)) 
+            prevList.push(Number(item))
     set_block_list(prevList)
 }
 
 const remove_block_list = (id) => {    
     const blocked = get_block_list()
     const i = blocked.indexOf(Number(id))
-    if (i === -1) return
-    blocked.splice(i, 1)
-    set_block_list(blocked)
-    
+    if (i !== -1) {
+        blocked.splice(i, 1)
+        set_block_list(blocked)
+    }
 }
 
 const is_blocked = (id) => {
@@ -59,16 +59,18 @@ const addContextMenu = () => {
     activeBlockClass.add(activeBlock)
     activeBlockClass.add('deco')
 
-
     activeBlockElement.appendChild(activeBlockClickElement)
     menuRootElement.appendChild(activeBlockElement)
     const defaultMemberContextMenu = app.getMemberContextMenu
-    app.getMemberContextMenu = function (e, t, a, i, n) {
+    app.getMemberContextMenu = (e, t, a, i, n) => {
         defaultMemberContextMenu(e, t, a, i, n)
         var r = $(e).parent().find("#context_menu.active")
         r.find(".active_block_super_rabbit").addClass("active")
-        r.find(".active_block_super_rabbit").one("click", () => {
-            (is_blocked(a) ? remove_block_list : add_block_list)(a)
+        r.find(".active_block_super_rabbit").one("click", _ => {
+            if (is_blocked(a) && confirm('차단 해제 하시겠습니까?')) 
+                remove_block_list(a)   
+            else if (confirm('차단 하시겠습니까?')) 
+                add_block_list(a)   
         })
     }
 }
