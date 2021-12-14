@@ -3,6 +3,7 @@
 
 
 ## 사용법
+0. 여기서 [다운로드](https://github.com/artistXenon/RuliCut/releases)
 1. 설정 진입 ``chrome://settings/`` 
 2. 좌측 탭에 확장 프로그램 선택 ``chrome://extensions/``
 3. 우측 상단 개발자 모드 켜기
